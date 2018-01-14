@@ -1,6 +1,8 @@
 import argparse
 import re
 import sys
+reload(sys);
+sys.setdefaultencoding("utf8")
 import string
 
 
@@ -42,7 +44,6 @@ def lookupURL(url):
         soup = BeautifulSoup(page.content, 'html.parser')
 
         tables = soup.find_all('div', {'class':'price'})
-
         return tables
 
     except Exception as e:
@@ -56,7 +57,9 @@ def proccessOutputKijiji(values,args):
 	min = sys.maxint
 	
 	for value in values:
-		val = value.string.strip()
+		value = string.replace(str(value.string), ',','')
+		val = value.strip()
+		#print val
 		if val.find('$') != -1:
 			price = int(floor(float(val[1:])))
 			min = price if min > price else min
