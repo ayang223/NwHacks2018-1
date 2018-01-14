@@ -2,7 +2,7 @@ import argparse
 import re
 import sys
 import string
-
+import kijiji
 
 import requests
 from bs4 import BeautifulSoup
@@ -12,8 +12,11 @@ import amazon
 def main():
     args = parseArgs()
     url = constructUrl(args)
-    amazon.startChecking(amazon.constructUrl(args))
+
+
     processOutputCraigslist(getRawData(url), args)
+    amazon.startChecking(amazon.constructUrl(args))
+    kijiji.proccessOutputKijiji(kijiji.lookupURL(kijiji.constructkijijiURL(args)), args)
 
 
 def parseArgs():

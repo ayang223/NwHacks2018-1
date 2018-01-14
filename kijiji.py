@@ -14,10 +14,10 @@ from math import *
 
 def main():
     args = parseArgs()
-    url = constructURL(args)
+    url = constructkijijiURL(args)
     #url = 'https://www.kijiji.ca/b-buy-sell/greater-vancouver-area/beats-solo3/k0c10l80003'
     proccessOutputKijiji(lookupURL(url), args)
-    
+
 
 
 
@@ -29,7 +29,7 @@ def parseArgs():
     return args
 
 
-def constructURL(args):
+def constructkijijiURL(args):
 	value = str(args.item)
 	value = string.replace(value, ' ', '-')
 	value += '/k0c10l80003'
@@ -38,7 +38,7 @@ def constructURL(args):
 	return url
 
 def lookupURL(url):
-	
+
     try:
     	page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
@@ -55,7 +55,7 @@ def proccessOutputKijiji(values,args):
 	avg = 0
 	max = 0
 	min = sys.maxint
-	
+
 	for value in values:
 		value = string.replace(str(value.string), ',','')
 		val = value.strip()
@@ -65,13 +65,13 @@ def proccessOutputKijiji(values,args):
 			min = price if min > price else min
 			max = price if max < price else max
 			avg += price
-			
+
 	avg = avg/len(values)
 	output = "Price of "+ str(args.item)+" has "+"average price value = $" + str(avg) + ", min price value = $"+str(min) + ",max price value = $" + str(max) +" on Kijiji";
 
 	print output
 
-		
+
 
 if __name__ == "__main__":
-    main()	
+    main()
