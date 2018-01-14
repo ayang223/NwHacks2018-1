@@ -1,5 +1,7 @@
 import argparse
 import re
+import sys
+import string
 
 
 import requests
@@ -9,9 +11,8 @@ from bs4 import BeautifulSoup
 def main():
     print 'abc'
     args = parseArgs()
-    #url = contructUrl(args)
-    url = 'https://vancouver.craigslist.ca/search/sss?query=beats%20solo%203&sort=rel'
-    lookupURL(url)
+    url = constructUrl(args)
+    processOutputCraigslist(getRawData(url), args)
 
 
 def parseArgs():
@@ -23,26 +24,64 @@ def parseArgs():
 
 
 def constructUrl(args):
+    value = str(args.item)
+    value =  string.replace(value, ' ', '%20')
+    value += '&sort=rel'
+    url = 'https://vancouver.craigslist.ca/search/sss?query=' + value
+
+    return url
+
+
+def getRawData(url):
     try:
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
+# <<<<<<< claidev
 
-        tables = soup.find_all('table', class_='result-title hdrlnk')
-        print(tables)
+#         tables = soup.find_all('table', class_='result-title hdrlnk')
+#         print(tables)
+#     except Exception as e:
+#         print('Error: ', e)
+#         raise
+# =======
+        amounts = soup.find_all('span', {'class':'result-price'})
+
+        return amounts
     except Exception as e:
-        print('Error: ', e)
+        print(e)
         raise
 
 
-def lookupURL(url):
-    try:
-        page = requests.get(url)
-        print page
-        print 'aaa'
-        soup = BeautifulSoup(page.content, 'html.parser')
+def processOutputCraigslist(amounts, args):
+    prices = []
+    avg = 0
+    max = 0
+    min = sys.maxint
+# >>>>>>> master
 
-        tables = soup.find_all('div', {'id':'sortable-results'})
-        print tables
+    for amount in amounts:
+        val = int(amount.string[1:])
+        if(val != 1):
+            min = val if min > val else min
+            max = val if max < val else max
+            avg += val
+
+# <<<<<<< claidev
+# def lookupURL(url):
+#     try:
+#         page = requests.get(url)
+#         print page
+#         print 'aaa'
+#         soup = BeautifulSoup(page.content, 'html.parser')
+
+#         tables = soup.find_all('div', {'id':'sortable-results'})
+#         print tables
+# =======
+    avg = avg / len(amounts)
+    output = "Price of "+ str(args.item) +" has " + "average price value = $" + str(avg) + ", min price value = $" + str(min) + ", and max price value = $" + str(max) + " on Craigslist";
+
+    print output
+# >>>>>>> master
 
     except Exception as e:
         print(e)
