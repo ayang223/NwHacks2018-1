@@ -41,9 +41,10 @@ def startChecking(url):
 
         for x in range(0, len(prices)):
             temp = (prices)[x].string.split()
-            values.append(float(temp[1]))
+            temp = temp[1].replace("," ,"")
+            values.append(float(temp))
         print("Total entries: " + str(len(prices)))
-        print("Highest price: $" + str( max(values)))
+        print("Highest price: $" + str(max(values)))
         print("Lowest price: $" + str(min(values)))
     except Exception as e:
         print("error::", e)
