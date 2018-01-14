@@ -10,6 +10,7 @@ def main():
     url = constructURL(args)
 
 
+
 def parseArgs():
     parser = argparse.ArgumentParser("online buy & sell helper")
     parser.add_argument("item", help="ex:beats solo3", type=str)
