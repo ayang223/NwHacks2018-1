@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 
 
 def main():
+    print 'abc'
     args = parseArgs()
     #url = contructUrl(args)
     url = 'https://vancouver.craigslist.ca/search/sss?query=beats%20solo%203&sort=rel'
@@ -24,23 +25,28 @@ def parseArgs():
 def constructUrl(args):
     try:
         page = requests.get(url)
-		soup = BeautifulSoup(page.content, 'html.parser')
+        soup = BeautifulSoup(page.content, 'html.parser')
 
-		tables = soup.find_all('table', class_='result-title hdrlnk')
-		print(tables)
-	except Exception as e:
-		print('Error: ', e)
-		raise
+        tables = soup.find_all('table', class_='result-title hdrlnk')
+        print(tables)
+    except Exception as e:
+        print('Error: ', e)
+        raise
 
 
 def lookupURL(url):
-	try:
-		page = requests.get(url)
-		soup = BeautifulSoul(page.content, 'html.parser')
+    try:
+        page = requests.get(url)
+        print page
+        print 'aaa'
+        soup = BeautifulSoup(page.content, 'html.parser')
 
-		tables = soup.find_all('rows', {'id':'sortable-results'})
-		print(tables)
+        tables = soup.find_all('div', {'id':'sortable-results'})
+        print tables
 
+    except Exception as e:
+        print(e)
+        raise
 
 if __name__ == "__main__":
     main()
