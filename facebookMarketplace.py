@@ -23,15 +23,18 @@ def constructUrl(args):
     for word in temp_name:
         searchable_name += word + "%20"
     # searchable_name = searchable_name[:-3]
-    return "https://www.facebook.com/marketplace/114497808567786/search?query=" + searchable_name
+    return "https://www.facebook.com/marketplace/search?query=" + searchable_name
 
 def startChecking(url):
     print("checking")
     try:
         page = requests.get(url)
-        soup = BeautifulSoup
+        soup = BeautifulSoup(page.content, 'html.parser')
 
-
+        prices = soup.find_all('div', class="_f3l _4x3g")
+        print (prices)
+    except Exception as e:
+        print("error::", e)
 
 
 
