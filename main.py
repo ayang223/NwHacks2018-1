@@ -6,12 +6,13 @@ import string
 
 import requests
 from bs4 import BeautifulSoup
+import amazon
 
 
 def main():
-    print 'abc'
     args = parseArgs()
     url = constructUrl(args)
+    amazon.startChecking(amazon.constructUrl(args))
     processOutputCraigslist(getRawData(url), args)
 
 
@@ -77,15 +78,20 @@ def processOutputCraigslist(amounts, args):
 #         tables = soup.find_all('div', {'id':'sortable-results'})
 #         print tables
 # =======
-    avg = avg / len(amounts)
-    output = "Price of "+ str(args.item) +" has " + "average price value = $" + str(avg) + ", min price value = $" + str(min) + ", and max price value = $" + str(max) + " on Craigslist";
+    if len(amounts) == 0:
+        output = "No results found"
+    else:
+        avg = avg / len(amounts)
+        output = "Price of "+ str(args.item) +" has " + "average price value = $" + str(avg) + ", min price value = $" + str(min) + ", and max price value = $" + str(max) + " on Craigslist";
+
+
 
     print output
 # >>>>>>> master
 
-    except Exception as e:
-        print(e)
-        raise
+    # except Exception as e:
+    #     print(e)
+    #     raise
 
 if __name__ == "__main__":
     main()
