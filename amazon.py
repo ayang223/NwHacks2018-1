@@ -26,22 +26,25 @@ def constructUrl(args):
     for word in temp_name:
         searchable_name += word + "+"
     searchable_name = searchable_name[:-1]
-    # return "https://www.facebook.com/marketplace/search?query=" + searchable_name
     return "https://www.amazon.ca/s/ref=nb_sb_noss_2/133-0145154-2323744?url=search-alias%3Daps&field-keywords=" + searchable_name
 
 def has_six_characters(css_class):
     return css_class is not None and len(css_class) == 10
 
 def startChecking(url):
-    print("checking")
     try:
         page = requests.get(url)
+        values = []
+
         soup = BeautifulSoup(page.content, 'html.parser')
-        # soup = BeautifulSoup(page.page_source, 'lxml')
         prices = soup.find_all('span', {'class': 's-price'})
-        print len(prices)
+
         for x in range(0, len(prices)):
-            print (prices)[x].string
+            temp = (prices)[x].string.split()
+            values.append(float(temp[1]))
+        print("Total entries: " + str(len(prices)))
+        print("Highest price: $" + str( max(values)))
+        print("Lowest price: $" + str(min(values)))
     except Exception as e:
         print("error::", e)
 
