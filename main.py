@@ -34,13 +34,7 @@ def constructUrl(args):
 def getRawData(url):
     try:
         page = requests.get(url)
-        print page
-        print 'aaa'
         soup = BeautifulSoup(page.content, 'html.parser')
-
-        soup.find_all('div', {'id':'sortable-results'})
-        li = soup.find_all('li', {'class':'result-row'})
-
         amounts = soup.find_all('span', {'class':'result-price'})
 
         return amounts
