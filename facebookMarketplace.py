@@ -18,7 +18,7 @@ def parseArgs():
 
 def constructUrl(args):
     item_name = args.item
-    temp_name = item_name.split(str="", 1)
+    temp_name = item_name.split(str="")
     searchable_name = "";
     for word in temp_name:
         searchable_name += word + "%20"
@@ -31,7 +31,7 @@ def startChecking(url):
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
 
-        prices = soup.find_all('div', class="_f3l _4x3g")
+        prices = soup.find_all('div', class_="_f3l _4x3g")
         print (prices)
     except Exception as e:
         print("error::", e)
