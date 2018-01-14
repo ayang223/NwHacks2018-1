@@ -1,5 +1,7 @@
 import argparse
 import re
+import sys
+
 
 import requests
 from bs4 import BeautifulSoup
@@ -32,6 +34,9 @@ def has_six_characters(css_class):
     return css_class is not None and len(css_class) == 10
 
 def startChecking(url):
+    avg = 0
+    max = 0
+    min = sys.maxint
     try:
         page = requests.get(url)
         values = []
@@ -43,9 +48,17 @@ def startChecking(url):
             temp = (prices)[x].string.split()
             temp = temp[1].replace("," ,"")
             values.append(float(temp))
-        print("Total entries: " + str(len(prices)))
-        print("Highest price: $" + str(max(values)))
-        print("Lowest price: $" + str(min(values)))
+
+        for value in values:
+            val = value
+            min = val if min > val else min
+            max = val if max < val else max
+            avg += val
+
+        avg = avg / len(values)
+        output = "Highest price : $" + str(max) + "\nLowest price: $" + str(min) + "\nAverage price: $" + str(avg)
+        print output
+
     except Exception as e:
         print("error::", e)
 
