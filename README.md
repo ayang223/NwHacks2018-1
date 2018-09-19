@@ -1,4 +1,7 @@
 # NwHacks2018
+
+A webscraper application created in a team of four that displays pricing information for selected items on popular web merchants such as Amazon, Ebay, etc.
+
 NwHacks2018 team
 
 ```
